@@ -7,8 +7,8 @@
     <ProjectGuid>{1DF182A4-50D5-487F-9C5B-9626F96B0313}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataPackages</RootNamespace>
-    <AssemblyName>DataPackages</AssemblyName>
+    <RootNamespace>Shared</RootNamespace>
+    <AssemblyName>Shared</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Client\Assets\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -38,12 +39,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client\ClientPackage.cs" />
-    <Compile Include="Client\ClientPackageType.cs" />
-    <Compile Include="Client\PingPackage.cs" />
-    <Compile Include="IPackage.cs" />
+    <Compile Include="Packages\Client\ExitFromRoomPackage.cs" />
+    <Compile Include="Packages\Client\GetRoomPackage.cs" />
+    <Compile Include="Packages\Client\SetTargetsPackage.cs" />
+    <Compile Include="POCOExtension.cs" />
+    <Compile Include="POCO\Position.cs" />
+    <Compile Include="POCO\Room.cs" />
+    <Compile Include="POCO\States.cs" />
+    <Compile Include="POCO\Unit.cs" />
+    <Compile Include="Packages\Client\ClientPackage.cs" />
+    <Compile Include="Packages\Client\ClientPackageFactory.cs" />
+    <Compile Include="Packages\Client\ClientPackageType.cs" />
+    <Compile Include="Packages\Client\LoginPackage.cs" />
+    <Compile Include="Packages\Client\PingPackage.cs" />
+    <Compile Include="Packages\PackageBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\ServerPackageType.cs" />
+    <Compile Include="Packages\Server\ServerPackageType.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

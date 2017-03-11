@@ -2,11 +2,13 @@
 
 namespace GameServer
 {
-    class Program
+    public sealed class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Server  server = new Server("127.0.0.1", 3990);
+            server.StartAsync();
+            Console.ReadKey();
         }
     }
 }

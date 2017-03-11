@@ -48,13 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="DataPackages\Client\ClientPackageFactoryTests.cs" />
+    <Compile Include="DataPackages\Client\PingPackgeTests.cs" />
+    <Compile Include="POCOExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataPackages\DataPackages.csproj">
+    <ProjectReference Include="..\DataPackages\Shared.csproj">
       <Project>{1df182a4-50d5-487f-9c5b-9626f96b0313}</Project>
-      <Name>DataPackages</Name>
+      <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
