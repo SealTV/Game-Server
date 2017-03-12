@@ -49,7 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataPackages\Client\ClientPackageFactoryTests.cs" />
+    <Compile Include="DataPackages\Client\ExitFromRoomPackageTests.cs" />
+    <Compile Include="DataPackages\Client\GetRoomPackageTests.cs" />
+    <Compile Include="DataPackages\Client\LoginPackageTests.cs" />
     <Compile Include="DataPackages\Client\PingPackgeTests.cs" />
+    <Compile Include="DataPackages\Client\SetTargetsPackageTests.cs" />
     <Compile Include="POCOExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
