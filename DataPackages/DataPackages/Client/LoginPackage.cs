@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Shared.Packages.Client
+namespace Shared.DataPackages.Client
 {
     public sealed class LoginPackage : ClientPackage
     {
@@ -9,7 +9,7 @@ namespace Shared.Packages.Client
         protected override void ToByteArray(Stream stream)
         {}
 
-        public override void FromByteArray(byte[] array)
+        public override void FromByteArray(byte[] data)
         {}
     }
 }

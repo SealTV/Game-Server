@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Shared.Packages.Client
+namespace Shared.DataPackages.Client
 {
     public abstract class ClientPackage : PackageBase
     {
@@ -14,6 +14,7 @@ namespace Shared.Packages.Client
             using (var steam = new MemoryStream())
             {
                 steam.WriteByte((byte)Type);
+
                 ToByteArray(steam);
                 var data = steam.ToArray();
 

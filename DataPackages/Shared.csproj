@@ -39,22 +39,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Packages\Client\ExitFromRoomPackage.cs" />
-    <Compile Include="Packages\Client\GetRoomPackage.cs" />
-    <Compile Include="Packages\Client\SetTargetsPackage.cs" />
+    <Compile Include="DataPackages\Client\ExitFromRoomPackage.cs" />
+    <Compile Include="DataPackages\Client\GetRoomPackage.cs" />
+    <Compile Include="DataPackages\Client\SetTargetsPackage.cs" />
+    <Compile Include="DataPackages\Server\ServerPackageFactory.cs" />
+    <Compile Include="DataPackages\Server\SetRoomPackage.cs" />
+    <Compile Include="DataPackages\Server\UpdatePositionsPackage.cs" />
+    <Compile Include="DataPackages\Server\AcceptLoginPackage.cs" />
+    <Compile Include="DataPackages\Server\PongPackage.cs" />
+    <Compile Include="DataPackages\Server\ServePackage.cs" />
     <Compile Include="POCOExtension.cs" />
     <Compile Include="POCO\Position.cs" />
     <Compile Include="POCO\Room.cs" />
     <Compile Include="POCO\States.cs" />
     <Compile Include="POCO\Unit.cs" />
-    <Compile Include="Packages\Client\ClientPackage.cs" />
-    <Compile Include="Packages\Client\ClientPackageFactory.cs" />
-    <Compile Include="Packages\Client\ClientPackageType.cs" />
-    <Compile Include="Packages\Client\LoginPackage.cs" />
-    <Compile Include="Packages\Client\PingPackage.cs" />
-    <Compile Include="Packages\PackageBase.cs" />
+    <Compile Include="DataPackages\Client\ClientPackage.cs" />
+    <Compile Include="DataPackages\Client\ClientPackageFactory.cs" />
+    <Compile Include="DataPackages\Client\ClientPackageType.cs" />
+    <Compile Include="DataPackages\Client\LoginPackage.cs" />
+    <Compile Include="DataPackages\Client\PingPackage.cs" />
+    <Compile Include="DataPackages\PackageBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Packages\Server\ServerPackageType.cs" />
+    <Compile Include="DataPackages\Server\ServerPackageType.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

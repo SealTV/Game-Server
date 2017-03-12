@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Shared.Packages.Client
+namespace Shared.DataPackages.Client
 {
     public class ExitFromRoomPackage : ClientPackage
     {
@@ -14,9 +14,9 @@ namespace Shared.Packages.Client
             stream.Write(BitConverter.GetBytes(RoomId), 0, 4);
         }
 
-        public override void FromByteArray(byte[] array)
+        public override void FromByteArray(byte[] data)
         {
-            RoomId = BitConverter.ToInt32(array, 0);
+            RoomId = BitConverter.ToInt32(data, 0);
         }
     }
 }

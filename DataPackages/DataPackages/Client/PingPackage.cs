@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Shared.Packages.Client
+namespace Shared.DataPackages.Client
 {
     public sealed class PingPackage : ClientPackage
     {
@@ -14,9 +14,9 @@ namespace Shared.Packages.Client
             stream.Write(BitConverter.GetBytes(Value), 0, 4);
         }
 
-        public override void FromByteArray(byte[] array)
+        public override void FromByteArray(byte[] data)
         {
-            Value = BitConverter.ToInt32(array, 0);
+            Value = BitConverter.ToInt32(data, 0);
         }
     }
 }

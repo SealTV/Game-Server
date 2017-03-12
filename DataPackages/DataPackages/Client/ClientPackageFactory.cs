@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Shared.Packages.Client
+namespace Shared.DataPackages.Client
 {
     public sealed class ClientPackageFactory
     {

@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Net.Sockets;
-using Shared.Packages.Client;
+using Shared.DataPackages.Client;
 
 namespace GameServer
 {

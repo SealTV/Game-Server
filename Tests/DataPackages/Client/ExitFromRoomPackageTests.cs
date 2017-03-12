@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using NUnit.Framework;
-using Shared.Packages.Client;
+using Shared.DataPackages.Client;
 
 namespace Tests.DataPackages.Client
 {
@@ -15,8 +15,6 @@ namespace Tests.DataPackages.Client
             var buffer = expected.ToByteArray();
 
             ExitFromRoomPackage actual = new ExitFromRoomPackage();
-            actual.FromByteArray(buffer);
-
             ClientPackageType packageType = ClientPackageType.None;
             using (var stream = new MemoryStream(buffer))
             {

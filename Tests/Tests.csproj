@@ -54,6 +54,11 @@
     <Compile Include="DataPackages\Client\LoginPackageTests.cs" />
     <Compile Include="DataPackages\Client\PingPackgeTests.cs" />
     <Compile Include="DataPackages\Client\SetTargetsPackageTests.cs" />
+    <Compile Include="DataPackages\Server\ServerPackageFactoryTests.cs" />
+    <Compile Include="DataPackages\Server\SetRoomPackageTests.cs" />
+    <Compile Include="DataPackages\Server\UpdatePositionsPackageTests.cs" />
+    <Compile Include="DataPackages\Server\PongPackgeTests.cs" />
+    <Compile Include="DataPackages\Server\AcceptLoginPackageTests.cs" />
     <Compile Include="POCOExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

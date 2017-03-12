@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using NUnit.Framework;
-using Shared.Packages.Client;
+using Shared.DataPackages.Client;
 
 namespace Tests.DataPackages.Client
 {

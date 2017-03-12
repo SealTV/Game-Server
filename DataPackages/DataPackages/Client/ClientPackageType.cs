@@ -1,4 +1,4 @@
-﻿namespace Shared.Packages.Client
+﻿namespace Shared.DataPackages.Client
 {
     public enum ClientPackageType : byte
     {

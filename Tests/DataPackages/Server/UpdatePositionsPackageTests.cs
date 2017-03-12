@@ -1,19 +1,19 @@
 ﻿using System.IO;
 using NUnit.Framework;
-using Shared.DataPackages.Client;
+using Shared.DataPackages.Server;
 using Shared.POCO;
 
-namespace Tests.DataPackages.Client
+namespace Tests.DataPackages.Server
 {
     [TestFixture]
-    public sealed class SetTargetsPackageTests
+    public class UpdatePositionsPackageTests
     {
-        private SetTargetsPackage _expected;
+        private UpdatePositionsPackage _expected;
 
         [SetUp]
         public void SetUp()
         {
-            _expected = new SetTargetsPackage
+            _expected = new UpdatePositionsPackage
             {
                 Units = new Unit[5]
             };
@@ -22,8 +22,8 @@ namespace Tests.DataPackages.Client
                 var unit = new Unit
                 {
                     Id = i + 1,
-                    Position = new Position { X = 1 * i, Y = 5 * i},
-                    State =  States.Move,
+                    Position = new Position { X = 1 * i, Y = 5 * i },
+                    State = States.Move,
                     TargetPosition = null
                 };
 
@@ -32,20 +32,20 @@ namespace Tests.DataPackages.Client
         }
 
         [Test]
-        public void ExitFromRoomPackageDeserializationTest()
+        public void UpdatePositionsPackageDeserializationTest()
         {
 
             var buffer = _expected.ToByteArray();
 
-            SetTargetsPackage actual = new SetTargetsPackage();
-            ClientPackageType packageType = ClientPackageType.None;
+            UpdatePositionsPackage actual = new UpdatePositionsPackage();
+            ServerPackageType packageType = ServerPackageType.None;
 
             using (var stream = new MemoryStream(buffer))
             {
                 using (var reader = new BinaryReader(stream))
                 {
                     var len = reader.ReadInt32();
-                    packageType = (ClientPackageType)reader.ReadByte();
+                    packageType = (ServerPackageType)reader.ReadByte();
                     actual.FromByteArray(reader.ReadBytes(len - 1));
                 }
             }

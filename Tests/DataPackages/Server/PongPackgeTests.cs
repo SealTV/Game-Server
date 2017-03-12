@@ -1,28 +1,28 @@
 ﻿using System.IO;
 using NUnit.Framework;
-using Shared.DataPackages.Client;
+using Shared.DataPackages.Server;
 
-namespace Tests.DataPackages.Client
+namespace Tests.DataPackages.Server
 {
     [TestFixture]
-    internal sealed class PingPackgeTests
+    internal sealed class PongPackgeTests
     {
         [Test]
-        public void PingConstructorTest()
+        public void PongConstructorTest()
         {
-            var packageBase = new PingPackage
+            var packageBase = new PongPackage
             {
                 Value =  10
             };
 
             Assert.AreEqual(10, packageBase.Value);
-            Assert.AreEqual(ClientPackageType.Ping, packageBase.Type);
+            Assert.AreEqual(ServerPackageType.Pong, packageBase.Type);
         }
 
         [Test]
-        public void PingSerializationTest()
+        public void PongSerializationTest()
         {
-            var packageBase = new PingPackage
+            var packageBase = new PongPackage
             {
                 Value =  10
             };
@@ -33,31 +33,31 @@ namespace Tests.DataPackages.Client
         }
 
         [Test]
-        public void PingPackageDeserializationTest()
+        public void PongPackageDeserializationTest()
         {
-            PingPackage expected = new PingPackage
+            PongPackage expected = new PongPackage
             {
                 Value = 10
             };
 
             var buffer = expected.ToByteArray();
 
-            PingPackage actual = new PingPackage();
+            PongPackage actual = new PongPackage();
             int len = 0;
-            ClientPackageType packageType = ClientPackageType.None;
+            ServerPackageType packageType = ServerPackageType.None;
 
             using (var stream = new MemoryStream(buffer))
             {
                 using (var reader = new BinaryReader(stream))
                 {
                     len = reader.ReadInt32();
-                    packageType = (ClientPackageType) reader.ReadByte();
+                    packageType = (ServerPackageType) reader.ReadByte();
                     actual.FromByteArray(reader.ReadBytes(len - 1));
                 }
             }
 
             Assert.AreEqual(5, len);
-            Assert.AreEqual(ClientPackageType.Ping, packageType);
+            Assert.AreEqual(ServerPackageType.Pong, packageType);
             Assert.AreEqual(9, buffer.Length);
             Assert.AreEqual(expected.Value, actual.Value);
         }

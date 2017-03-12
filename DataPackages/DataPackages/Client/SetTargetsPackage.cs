@@ -2,11 +2,11 @@ using System;
 using System.IO;
 using Shared.POCO;
 
-namespace Shared.Packages.Client
+namespace Shared.DataPackages.Client
 {
     public class SetTargetsPackage : ClientPackage
     {
-        public override ClientPackageType Type => ClientPackageType.ExitFromRoom;
+        public override ClientPackageType Type => ClientPackageType.SetTargets;
 
         public Unit[] Units { get; set; }
 
@@ -22,9 +22,9 @@ namespace Shared.Packages.Client
             stream.Write(bytes, 0, bytes.Length);
         }
 
-        public override void FromByteArray(byte[] array)
+        public override void FromByteArray(byte[] data)
         {
-            using (var stream = new MemoryStream(array))
+            using (var stream = new MemoryStream(data))
             {
                 using (var readed = new BinaryReader(stream))
                 {
