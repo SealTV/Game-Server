@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Shared.DataPackages.Server
 {
-    public abstract class ServePackage : PackageBase
+    public abstract class ServerPackage : PackageBase
     {
         public abstract ServerPackageType Type { get; }
 

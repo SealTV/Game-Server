@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\AStarPathSearch.cs" />
+    <Compile Include="Algorithms\PathNode.cs" />
     <Compile Include="DataPackages\Client\ExitFromRoomPackage.cs" />
     <Compile Include="DataPackages\Client\GetRoomPackage.cs" />
     <Compile Include="DataPackages\Client\SetTargetsPackage.cs" />
@@ -47,7 +49,7 @@
     <Compile Include="DataPackages\Server\UpdatePositionsPackage.cs" />
     <Compile Include="DataPackages\Server\AcceptLoginPackage.cs" />
     <Compile Include="DataPackages\Server\PongPackage.cs" />
-    <Compile Include="DataPackages\Server\ServePackage.cs" />
+    <Compile Include="DataPackages\Server\ServerPackage.cs" />
     <Compile Include="POCOExtension.cs" />
     <Compile Include="POCO\Position.cs" />
     <Compile Include="POCO\Room.cs" />

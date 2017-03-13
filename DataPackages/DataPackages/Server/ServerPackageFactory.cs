@@ -5,9 +5,9 @@ namespace Shared.DataPackages.Server
 {
     public sealed class ServerPackageFactory
     {
-        public ServePackage GetNextPackage(Stream stream)
+        public ServerPackage GetNextPackage(Stream stream)
         {
-            ServePackage result = null;
+            ServerPackage result = null;
 
             byte[] data = new byte[4];
             stream.Read(data, 0, 4);
@@ -39,9 +39,9 @@ namespace Shared.DataPackages.Server
             return result;
         }
 
-        public ServePackage GetNextPackage(byte[] data)
+        public ServerPackage GetNextPackage(byte[] data)
         {
-            ServePackage result = null;
+            ServerPackage result = null;
             using (var stream = new MemoryStream(data))
             {
                 result = GetNextPackage(stream);

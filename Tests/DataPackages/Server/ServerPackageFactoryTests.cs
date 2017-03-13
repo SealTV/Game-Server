@@ -65,7 +65,7 @@ namespace Tests.DataPackages.Server
         {
             var data = new byte[] {0, 0, 0, 0};
 
-            ServePackage package = null;
+            ServerPackage package = null;
             using (var stream = new MemoryStream(data))
             {
                 Console.WriteLine(stream.Length);
@@ -80,7 +80,7 @@ namespace Tests.DataPackages.Server
         {
             var data = new byte[] {0, 0, 0, 0};
 
-            ServePackage package  = _factory.GetNextPackage(data);
+            ServerPackage package  = _factory.GetNextPackage(data);
             Assert.Null(package);
         }
 
@@ -89,7 +89,7 @@ namespace Tests.DataPackages.Server
         {
             var data = _pongPackage.ToByteArray();
 
-            ServePackage package = _factory.GetNextPackage(data);
+            ServerPackage package = _factory.GetNextPackage(data);
 
             Assert.NotNull(package);
             Assert.AreEqual(data, package.ToByteArray());
@@ -101,7 +101,7 @@ namespace Tests.DataPackages.Server
         {
             var data = _acceptLoginPackage.ToByteArray();
 
-            ServePackage package = _factory.GetNextPackage(data);
+            ServerPackage package = _factory.GetNextPackage(data);
 
             Assert.NotNull(package);
             Assert.AreEqual(data, package.ToByteArray());
@@ -114,7 +114,7 @@ namespace Tests.DataPackages.Server
         {
             var data = _setRoomPackage.ToByteArray();
 
-            ServePackage clientPackage = _factory.GetNextPackage(data);
+            ServerPackage clientPackage = _factory.GetNextPackage(data);
 
             Assert.NotNull(clientPackage);
             Assert.AreEqual(data, clientPackage.ToByteArray());
@@ -128,7 +128,7 @@ namespace Tests.DataPackages.Server
         {
             var data = _updatePositionsPackage.ToByteArray();
 
-            ServePackage package = _factory.GetNextPackage(data);
+            ServerPackage package = _factory.GetNextPackage(data);
 
             Assert.NotNull(package);
             Assert.AreEqual(_updatePositionsPackage.Type, package.Type);

@@ -4,7 +4,7 @@ using Shared.POCO;
 
 namespace Shared.DataPackages.Server
 {
-   public sealed class UpdatePositionsPackage : ServePackage
+   public sealed class UpdatePositionsPackage : ServerPackage
     {
         public override ServerPackageType Type => ServerPackageType.UpdatePositions;
 

@@ -3,7 +3,7 @@ using Shared.POCO;
 
 namespace Shared.DataPackages.Server
 {
-   public sealed class SetRoomPackage : ServePackage
+   public sealed class SetRoomPackage : ServerPackage
     {
         public override ServerPackageType Type => ServerPackageType.SetRoom;
 

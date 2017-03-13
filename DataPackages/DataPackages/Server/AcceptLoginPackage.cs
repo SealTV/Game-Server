@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Shared.DataPackages.Server
 {
-   public sealed class AcceptLoginPackage : ServePackage
+   public sealed class AcceptLoginPackage : ServerPackage
     {
         public override ServerPackageType Type => ServerPackageType.AcceptLogin;
 

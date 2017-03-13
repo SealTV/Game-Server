@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AStarPathSearchTest.cs" />
     <Compile Include="DataPackages\Client\ClientPackageFactoryTests.cs" />
     <Compile Include="DataPackages\Client\ExitFromRoomPackageTests.cs" />
     <Compile Include="DataPackages\Client\GetRoomPackageTests.cs" />

@@ -46,6 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="PackageHandlers\ExitFromRoomPackageHandler.cs" />
+    <Compile Include="PackageHandlers\GetRoomPackageHandler.cs" />
+    <Compile Include="PackageHandlers\LoginPackageHandler.cs" />
+    <Compile Include="PackageHandlers\PackageHandler.cs" />
+    <Compile Include="PackageHandlers\PingPackageHandler.cs" />
+    <Compile Include="PackageHandlers\SetTargetsPackageHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />

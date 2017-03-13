@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Shared.DataPackages.Server
 {
-   public sealed class PongPackage : ServePackage
+   public sealed class PongPackage : ServerPackage
     {
         public override ServerPackageType Type => ServerPackageType.Pong;
 

@@ -11,7 +11,7 @@ namespace Tests
         public void PositionSerializationTest()
         {
             var data = new byte[] {0, 0, 0, 0, 0, 0, 0, 0};
-            Position p = new Position {X = 0f, Y = 0f};
+            Position p = new Position {X = 0, Y = 0};
 
             var array = p.ToByteArray();
 
@@ -22,7 +22,7 @@ namespace Tests
         [Test]
         public void PositionDeserializationTest()
         {
-            Position p1 = new Position {X = 10f, Y = 125f};
+            Position p1 = new Position {X = 10, Y = 125};
 
             var array = p1.ToByteArray();
 
@@ -46,9 +46,9 @@ namespace Tests
             Unit u = new Unit
             {
                 Id =  1,
-                Position = new Position { X = 0f, Y = 0f },
+                Position = new Position { X = 0, Y = 0 },
                 State =  States.Stay,
-                TargetPosition = new Position { X = 0f, Y = 0f}
+                TargetPosition = new Position { X = 0, Y = 0}
             };
 
             var array = u.ToByteArray();
@@ -69,7 +69,7 @@ namespace Tests
             Unit u = new Unit
             {
                 Id =  1,
-                Position = new Position { X = 0f, Y = 0f },
+                Position = new Position { X = 0, Y = 0 },
                 State =  States.Move,
                 TargetPosition = null
             };
@@ -86,9 +86,9 @@ namespace Tests
             Unit unit1 = new Unit
             {
                 Id =  1,
-                Position = new Position { X = 0f, Y = 0f },
+                Position = new Position { X = 0, Y = 0 },
                 State =  States.Stay,
-                TargetPosition = new Position { X = 0f, Y = 0f}
+                TargetPosition = new Position { X = 0, Y = 0}
             };
 
             var data = unit1.ToByteArray();
@@ -110,7 +110,7 @@ namespace Tests
             Unit unit1 = new Unit
             {
                 Id =  1,
-                Position = new Position { X = 0f, Y = 0f },
+                Position = new Position { X = 0, Y = 0 },
                 State =  States.Move,
                 TargetPosition = null
             };
@@ -133,9 +133,9 @@ namespace Tests
             Unit unit1 = new Unit
             {
                 Id = 1,
-                Position = new Position { X = 10f, Y = 150f },
+                Position = new Position { X = 10, Y = 150 },
                 State = States.Stay,
-                TargetPosition = new Position { X = 13f, Y = 26f }
+                TargetPosition = new Position { X = 13, Y = 26 }
             };
 
             var data = unit1.ToByteArray();
@@ -157,9 +157,9 @@ namespace Tests
             Unit unit = new Unit
             {
                 Id = 1,
-                Position = new Position { X = 10f, Y = 150f },
+                Position = new Position { X = 10, Y = 150 },
                 State = States.Stay,
-                TargetPosition = new Position { X = 13f, Y = 26f }
+                TargetPosition = new Position { X = 13, Y = 26 }
             };
 
             Unit[] array = { unit , unit };
@@ -175,9 +175,9 @@ namespace Tests
             Unit unit = new Unit
             {
                 Id = 1,
-                Position = new Position { X = 10f, Y = 150f },
+                Position = new Position { X = 10, Y = 150 },
                 State = States.Stay,
-                TargetPosition = new Position { X = 13f, Y = 26f }
+                TargetPosition = new Position { X = 13, Y = 26 }
             };
 
             Unit[] array = { unit , unit };
@@ -197,9 +197,9 @@ namespace Tests
             Unit unit = new Unit
             {
                 Id = 1,
-                Position = new Position { X = 10f, Y = 150f },
+                Position = new Position { X = 10, Y = 150 },
                 State = States.Stay,
-                TargetPosition = new Position { X = 13f, Y = 26f }
+                TargetPosition = new Position { X = 13, Y = 26 }
             };
 
             Room origin = new Room

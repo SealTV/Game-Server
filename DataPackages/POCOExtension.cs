@@ -16,8 +16,8 @@ namespace Shared
 
         public static void FromBytes(this Position p, byte[] data)
         {
-            p.X = BitConverter.ToSingle(data, 0);
-            p.Y = BitConverter.ToSingle(data, 4);
+            p.X = BitConverter.ToInt32(data, 0);
+            p.Y = BitConverter.ToInt32(data, 4);
         }
 
         public static byte[] ToByteArray(this Unit unit)
