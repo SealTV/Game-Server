@@ -13,7 +13,8 @@ namespace GameServer.PackageHandlers
 
         public override void HandlePackage()
         {
-            Client.Close();
+            Logger.Info($"Disconnect client ${Client.ClientId}");
+            Client.Disconnect();
         }
     }
 }

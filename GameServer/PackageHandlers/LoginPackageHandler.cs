@@ -1,4 +1,3 @@
-using System;
 using Shared.DataPackages.Client;
 using Shared.DataPackages.Server;
 
@@ -13,10 +12,10 @@ namespace GameServer.PackageHandlers
 
         public override void HandlePackage()
         {
-            Logger.Debug("Handle Login package");
+            Client.ClientId = Client.ClientsCount;
             Client.SendPackage(new AcceptLoginPackage
             {
-                ClientId = Client.ClientsCount
+                ClientId = Client.ClientId
             });
         }
     }

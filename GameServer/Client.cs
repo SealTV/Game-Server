@@ -21,7 +21,6 @@ namespace GameServer
         private readonly CancellationTokenSource _tokenSource;
 
         private Game.Game _game;
-
         public Game.Game Game
         {
             get
@@ -29,6 +28,8 @@ namespace GameServer
                 return _game;
             }
         }
+
+        public int ClientId { get; set; }
 
         public Client(TcpClient tcpClient, CancellationTokenSource tokenSource)
         {
@@ -78,7 +79,7 @@ namespace GameServer
                                 }
                                 else
                                 {
-                                    Logger.Warn($"Package handler for packafe {package.Type} are not found!");
+                                    Logger.Warn($"Package handler for package {package.Type} are not found! Client {ClientId}");
                                 }
                             }
                         } while (package != null);
@@ -88,11 +89,13 @@ namespace GameServer
             }
             catch (IOException)
             {
-                Close();
+                Logger.Info($"Disconnect client {ClientId} by exception");
+                Disconnect();
             }
             catch (TaskCanceledException)
             {
-                Close();
+                Logger.Info($"Disconnect client {ClientId} by exception");
+                Disconnect();
             }
         }
 
@@ -105,15 +108,17 @@ namespace GameServer
             }
             catch (IOException)
             {
-                Close();
+                Logger.Info($"Disconnect client {ClientId} by exception");
+                Disconnect();
             }
             catch (TaskCanceledException)
             {
-                Close();
+                Logger.Info($"Disconnect client {ClientId} by exception");
+                Disconnect();
             }
         }
 
-        public void Close()
+        public void Disconnect()
         {
             _tokenSource.Cancel();
             _tcpClient.Close();

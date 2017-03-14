@@ -26,9 +26,11 @@ namespace GameServer.Game
         private CancellationTokenSource _tokenSource;
 
         public event Action<Unit[]> OnUpdatePositions = delegate{};
+        private int _clientId;
 
-        public Game(Room room)
+        public Game(Room room, int clientId)
         {
+            _clientId = clientId;
             _room = room;
             _map = new int[room.Width, room.Height];
            
@@ -43,12 +45,14 @@ namespace GameServer.Game
 
         public void Start()
         {
+            Logger.Info($"Start game for client {_clientId}");
             _tokenSource = new CancellationTokenSource();
             Task.Run(() => Run(_tokenSource.Token), _tokenSource.Token);
         }
 
         public void Stop()
         {
+            Logger.Info($"Stop game for client {_clientId}");
             _tokenSource.Cancel();
         }
 

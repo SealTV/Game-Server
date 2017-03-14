@@ -14,8 +14,6 @@ namespace GameServer.PackageHandlers
         {
             PingPackage pingPackage = (PingPackage) Package;
 
-            Logger.Debug($"Ping package value: {pingPackage.Value}");
-
             Client.SendPackage(new PongPackage
             {
                 Value = pingPackage.Value

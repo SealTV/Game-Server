@@ -13,7 +13,6 @@ namespace GameServer.PackageHandlers
         {
             Client = client;
             Package = package;
-            Logger.Debug($"Package received: {Package.Type}");
         }
 
         public abstract void HandlePackage();

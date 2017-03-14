@@ -17,15 +17,13 @@ namespace GameServer.PackageHandlers
 
         public override void HandlePackage()
         {
-            Logger.Debug("Handle GetRoom package");
-
             Random random = new Random();
             int n = random.Next(7, 13);
             Room room = new Room
             {
                 Width = n,
                 Height = n,
-                Units = new Unit[random.Next(1, 5)]
+                Units = new Unit[random.Next(1, 6)]
             };
 
             List<Position> startPositions = new List<Position>();
@@ -54,7 +52,7 @@ namespace GameServer.PackageHandlers
                 Room = room
             });
 
-            Game.Game game = new Game.Game(room);
+            Game.Game game = new Game.Game(room, Client.ClientId);
             Client.SetGame(game);
             game.Start();
         }
