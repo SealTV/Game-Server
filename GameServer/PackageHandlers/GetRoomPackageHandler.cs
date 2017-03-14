@@ -45,7 +45,7 @@ namespace GameServer.PackageHandlers
                     Id =  i + 1,
                     Position = startPositions[i],
                     State = States.Stay,
-                    TargetPosition = null
+                    TargetPosition = startPositions[i]
                 };
             }
 
@@ -53,6 +53,10 @@ namespace GameServer.PackageHandlers
             {
                 Room = room
             });
+
+            Game.Game game = new Game.Game(room);
+            Client.SetGame(game);
+            game.Start();
         }
     }
 }

@@ -27,7 +27,33 @@ namespace Tests
             var array = p1.ToByteArray();
 
             var p2 = new Position();
-            p2.FromBytes(array);
+            p2 = p2.FromBytes(array);
+
+            Assert.AreEqual(p1.X, p2.X);
+            Assert.AreEqual(p1.Y, p2.Y);
+        }
+
+        [Test]
+        public void PositionFSerializationTest()
+        {
+            var data = new byte[] {0, 0, 0, 0, 0, 0, 0, 0};
+            PositionF p = new PositionF { X = 0, Y = 0};
+
+            var array = p.ToByteArray();
+
+            Assert.AreEqual(data.Length, array.Length);
+            Assert.AreEqual(data, array);
+        }
+
+        [Test]
+        public void PositionFDeserializationTest()
+        {
+            PositionF p1 = new PositionF { X = 10, Y = 125};
+
+            var array = p1.ToByteArray();
+
+            var p2 = new PositionF();
+            p2 = p2.FromBytes(array);
 
             Assert.AreEqual(p1.X, p2.X);
             Assert.AreEqual(p1.Y, p2.Y);
@@ -41,14 +67,16 @@ namespace Tests
                 1, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0,
                 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0};
 
             Unit u = new Unit
             {
                 Id =  1,
-                Position = new Position { X = 0, Y = 0 },
                 State =  States.Stay,
-                TargetPosition = new Position { X = 0, Y = 0}
+                Position = new Position { X = 0, Y = 0 },
+                TargetPosition = new Position { X = 0, Y = 0},
+                PositionF = new PositionF { X = 0, Y = 0 }
             };
 
             var array = u.ToByteArray();
@@ -61,17 +89,20 @@ namespace Tests
         public void UnitSerializationTest2()
         {
             var data = new byte[]
-            {
+           {
                 1, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0,
-                1};
+                0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0};
 
             Unit u = new Unit
             {
-                Id =  1,
+                Id = 1,
+                State = States.Stay,
                 Position = new Position { X = 0, Y = 0 },
-                State =  States.Move,
-                TargetPosition = null
+                TargetPosition = new Position { X = 0, Y = 0 },
+                PositionF = new PositionF { X = 0, Y = 0 }
             };
 
             var array = u.ToByteArray();
@@ -111,8 +142,8 @@ namespace Tests
             {
                 Id =  1,
                 Position = new Position { X = 0, Y = 0 },
-                State =  States.Move,
-                TargetPosition = null
+                State = States.Stay,
+                TargetPosition = new Position { X = 0, Y = 0 }
             };
 
 
@@ -124,7 +155,7 @@ namespace Tests
             Assert.AreEqual(unit1.State, unit2.State);
             Assert.AreEqual(unit1.Position.X, unit2.Position.X);
             Assert.AreEqual(unit1.Position.Y, unit2.Position.Y);
-            Assert.Null(unit2.TargetPosition);
+            Assert.AreEqual(unit2.Position, unit2.TargetPosition);
         }
 
         [Test]
@@ -159,14 +190,15 @@ namespace Tests
                 Id = 1,
                 Position = new Position { X = 10, Y = 150 },
                 State = States.Stay,
-                TargetPosition = new Position { X = 13, Y = 26 }
+                TargetPosition = new Position { X = 13, Y = 26 },
+                PositionF = new PositionF { X = 10, Y = 150 },
             };
 
             Unit[] array = { unit , unit };
 
             var data = array.ToByteArray();
 
-            Assert.AreEqual(54, data.Length);
+            Assert.AreEqual(70, data.Length);
         }
 
         [Test]

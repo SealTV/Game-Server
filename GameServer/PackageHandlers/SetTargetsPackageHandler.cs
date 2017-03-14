@@ -13,7 +13,8 @@ namespace GameServer.PackageHandlers
         public override void HandlePackage()
         {
             Logger.Debug("Handle SetTargetsPackage package");
-
+            SetTargetsPackage targetsPackage = (SetTargetsPackage) Package;
+            Client.Game?.SetTargets(targetsPackage.Units);
         }
     }
 }

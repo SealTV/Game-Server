@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="Game\GameUnit.cs" />
     <Compile Include="PackageHandlers\ExitFromRoomPackageHandler.cs" />
+    <Compile Include="Game\Game.cs" />
     <Compile Include="PackageHandlers\GetRoomPackageHandler.cs" />
     <Compile Include="PackageHandlers\LoginPackageHandler.cs" />
     <Compile Include="PackageHandlers\PackageHandler.cs" />

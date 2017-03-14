@@ -51,6 +51,7 @@
     <Compile Include="DataPackages\Server\PongPackage.cs" />
     <Compile Include="DataPackages\Server\ServerPackage.cs" />
     <Compile Include="POCOExtension.cs" />
+    <Compile Include="POCO\PositionF.cs" />
     <Compile Include="POCO\Position.cs" />
     <Compile Include="POCO\Room.cs" />
     <Compile Include="POCO\States.cs" />

@@ -61,6 +61,8 @@
     <Compile Include="DataPackages\Server\PongPackgeTests.cs" />
     <Compile Include="DataPackages\Server\AcceptLoginPackageTests.cs" />
     <Compile Include="POCOExtensionTest.cs" />
+    <Compile Include="PositionFTests.cs" />
+    <Compile Include="PositionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

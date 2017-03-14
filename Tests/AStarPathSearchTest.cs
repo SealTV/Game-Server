@@ -11,23 +11,85 @@ namespace Tests
     {
         private Position _startPosition;
         private Position _targetPosition;
+        private Position _startPosition2;
+        private Position _targetPosition2;
+        private Position _startPosition3;
+        private Position _targetPosition3;
 
-        private int[,] _map;
+        private int[,] _openMap;
+        private int[,] _openMap2;
+        private int[,] _openMap3;
+        private int[,] _closeMap1;
+        private int[,] _closeMap2;
+        private int[,] _closeMap3;
 
         [SetUp]
         public void SetUp()
         {
-            _map = new int[5, 5];
-            for (int i = 0; i < _map.GetLength(0); i++)
+            _openMap = new int[,]
             {
-                for (int j = 0; j < _map.GetLength(1); j++)
-                {
-                    _map[i, j] = 0;
-                }
-            }
+                {0, 0, 0, 0, 0 },
+                {0, 0, 0, 0, 0 },
+                {0, 0, 0, 0, 0 },
+                {0, 0, 0, 0, 0 },
+                {0, 0, 0, 0, 0 }
+            };
+
+            _openMap2 = new int[,]
+            {
+                {0, 0, 0, 0, 0 },
+                {0, 1, 1, 1, 0 },
+                {0, 0, 0, 1, 0 },
+                {0, 0, 0, 0, 0 },
+                {0, 0, 0, 0, 0 }
+            };
+
+
+            _openMap3 = new int[,]
+            {
+                {0, 0, 0, 0, 0, 0 },
+                {1, 1, 1, 1, 1, 0 },
+                {0, 0, 0, 0, 1, 0 },
+                {0, 0, 0, 0, 1, 0 },
+                {0, 0, 1, 1, 1, 0 },
+                {0, 0, 0, 0, 0, 0 }
+            };
+
+            _closeMap1 = new int[,]
+            {
+                {0, 0, 0, 0, 0 },
+                {0, 0, 0, 0, 0 },
+                {0, 0, 0, 0, 0 },
+                {0, 0, 0, 0, 1 },
+                {0, 0, 0, 1, 0 }
+            };
+
+            _closeMap2 = new int[,]
+            {
+                {0, 1, 0, 0, 0 },
+                {1, 1, 1, 0, 0 },
+                {0, 1, 0, 0, 0 },
+                {0, 0, 0, 0, 0 },
+                {0, 0, 0, 0, 0 }
+            };
+
+            _closeMap3 = new int[,]
+            {
+                {1, 1, 1, 1, 1 },
+                {1, 1, 1, 1, 1 },
+                {1, 1, 1, 1, 1 },
+                {1, 1, 1, 1, 1 },
+                {1, 1, 1, 1, 1 }
+            };
 
             _startPosition = new Position(1, 1);
             _targetPosition = new Position(4, 4);
+
+            _startPosition2 = new Position(2, 2);
+            _targetPosition2 = new Position(0, 2);
+
+            _startPosition3 = new Position(3, 3);
+            _targetPosition3 = new Position(0, 3);
         }
 
         [Test]
@@ -95,22 +157,107 @@ namespace Tests
                 HeuristicEstimatePathLength = AStarPathSearch.GetHeuristicPathLength(_startPosition, _targetPosition)
             };
 
-            var nodes = AStarPathSearch.GetNeighbors(node, _targetPosition, _map);
+            var nodes = AStarPathSearch.GetNeighbors(node, _targetPosition, _openMap);
 
             Assert.AreEqual(4, nodes.Count);
         }
 
         [Test]
-        public void FindPathTest()
+        public void FindPath1Test()
         {
-            var points = AStarPathSearch.FindPath(_map, _startPosition, _targetPosition);
-            foreach (var point in points)
-            {
-                Console.WriteLine($"x: {point.X}, y: {point.Y}");
-            }
+            var points = AStarPathSearch.FindPath(_openMap, _startPosition, _targetPosition);
             Assert.AreEqual(7, points.Count);
             Assert.AreEqual(_targetPosition.X, points[points.Count - 1].X);
             Assert.AreEqual(_targetPosition.Y, points[points.Count - 1].Y);
+        }
+
+        [Test]
+        public void FindPath2Test()
+        {
+            var points = AStarPathSearch.FindPath(_openMap2, _startPosition2, _targetPosition2);
+            Assert.AreEqual(7, points.Count);
+            Assert.AreEqual(_targetPosition2.X, points[points.Count - 1].X);
+            Assert.AreEqual(_targetPosition2.Y, points[points.Count - 1].Y);
+        }
+
+        [Test]
+        public void FindPath3Test()
+        {
+            var points = AStarPathSearch.FindPath(_openMap3, _startPosition3, _targetPosition3);
+            Assert.AreEqual(16, points.Count);
+            Assert.AreEqual(_targetPosition3.X, points[points.Count - 1].X);
+            Assert.AreEqual(_targetPosition3.Y, points[points.Count - 1].Y);
+        }
+
+        [Test]
+        public void FindPathFaill1Test()
+        {
+            var points = AStarPathSearch.FindPath(_closeMap1, _startPosition, _targetPosition);
+           
+            Assert.Null(points);
+        }
+
+        [Test]
+        public void FindPathFaill2Test()
+        {
+            var points = AStarPathSearch.FindPath(_closeMap2, _startPosition, _targetPosition);
+            Assert.Null(points);
+        }
+
+        [Test]
+        public void GetNearestPoint1Test()
+        {
+            var points = AStarPathSearch.GetNearestPoints(_targetPosition, _openMap, 1);
+
+            Assert.NotNull(points);
+            Assert.AreEqual(3, points.Count);
+        }
+
+        [Test]
+        public void GetNearestPoint2Test()
+        {
+            var points = AStarPathSearch.GetNearestPoints(_targetPosition, _closeMap1, 1);
+
+            Assert.NotNull(points);
+            Assert.AreEqual(1, points.Count);
+        }
+
+        [Test]
+        public void GetNearestPoint3Test()
+        {
+            var points = AStarPathSearch.GetNearestPoints(_targetPosition, _closeMap1, 2);
+
+            Assert.NotNull(points);
+            Assert.AreEqual(5, points.Count);
+        }
+
+        [Test]
+        public void FindPathToNearestPoint1Test()
+        {
+            var points = AStarPathSearch.FindPathToNearestPoint(_closeMap1, _startPosition, _targetPosition);
+
+            Assert.NotNull(points);
+            Assert.AreEqual(5, points.Count);
+        }
+
+        [Test]
+        public void FindPathToNearestPoint2Test()
+        {
+            var points = AStarPathSearch.FindPathToNearestPoint(_closeMap2, _startPosition, _targetPosition);
+
+            Assert.NotNull(points);
+            Assert.AreEqual(1, points.Count);
+            Assert.AreEqual(_startPosition, points[0]);
+        }
+
+        [Test]
+        public void FindPathToNearestPoint3Test()
+        {
+            var points = AStarPathSearch.FindPathToNearestPoint(_closeMap3, _startPosition, _targetPosition);
+
+            Assert.NotNull(points);
+            Assert.AreEqual(1, points.Count);
+            Assert.AreEqual(_startPosition, points[0]);
         }
     }
 }

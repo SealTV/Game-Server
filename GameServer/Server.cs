@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -14,10 +15,13 @@ namespace GameServer
         private readonly TcpListener _listener;
         private readonly IPEndPoint _ipEndPoint;
 
-        private ManualResetEvent _tokenSource;
-
+        private CancellationTokenSource _tokenSource;
+        private List<CancellationTokenSource> _tokenSources;
+ 
         public Server(string host, int port)
         {
+            _tokenSource = new CancellationTokenSource();
+            _tokenSources = new List<CancellationTokenSource>();
             _ipEndPoint = new IPEndPoint(IPAddress.Parse(host), port);
             _isRun = false;
             _listener = new TcpListener(_ipEndPoint);
@@ -31,16 +35,31 @@ namespace GameServer
                 return;
             }
 
-            _isRun = true;
             _listener.Start();
             Logger.Warn("Server started!");
 
-            while (_isRun)
+            while (!_tokenSource.IsCancellationRequested)
             {
                 var tcpClient = await _listener.AcceptTcpClientAsync();
                 Logger.Debug($"Client connected {tcpClient.Client.RemoteEndPoint}");
-                var client = new Client(tcpClient);
+
+                CancellationTokenSource tokenSource = new CancellationTokenSource();
+
+                var client = new Client(tcpClient, tokenSource);
+
+                _tokenSources.Add(tokenSource);
                 client.Process();
+            }
+        }
+
+        public void Stop()
+        {
+            _tokenSource.Cancel();
+            _listener.Stop();
+            foreach (var source in _tokenSources)
+            {
+                if(!_tokenSource.IsCancellationRequested)
+                    source.Cancel();
             }
         }
     }

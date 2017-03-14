@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using GameServer.PackageHandlers;
 using Shared.DataPackages.Client;
 using Shared.DataPackages.Server;
@@ -19,60 +20,104 @@ namespace GameServer
 
         private readonly CancellationTokenSource _tokenSource;
 
-        public Client(TcpClient tcpClient)
+        private Game.Game _game;
+
+        public Game.Game Game
         {
+            get
+            {
+                return _game;
+            }
+        }
+
+        public Client(TcpClient tcpClient, CancellationTokenSource tokenSource)
+        {
+            _game = null;
             _tcpClient = tcpClient;
+            _tokenSource = tokenSource;
             _stream = _tcpClient.GetStream();
             _packageFactory = new ClientPackageFactory();
             ClientsCount++;
-            _tokenSource = new CancellationTokenSource();
+        }
+
+        public void SetGame(Game.Game game)
+        {
+            _game = game;
+            _game.OnUpdatePositions += units =>
+            {
+                SendPackage(new UpdatePositionsPackage
+                {
+                    Units = units
+                });
+            };
         }
 
         public async void Process()
         {
             byte[] data = new byte[1024];
 
-            do
+            try
             {
-                int len = await _stream.ReadAsync(data, 0, data.Length, _tokenSource.Token);
-                Logger.Debug($"readed {len}");
-
-                byte[] buffer = new byte[len];
-                Array.Copy(data, buffer, len);
-                using (var stream = new MemoryStream(buffer))
+                do
                 {
-                    ClientPackage package = null;
-                    do
+                    int len = await _stream.ReadAsync(data, 0, data.Length, _tokenSource.Token);
+                    byte[] buffer = new byte[len];
+                    Array.Copy(data, buffer, len);
+                    using (var stream = new MemoryStream(buffer))
                     {
-                        package = _packageFactory.GetNextPackage(stream);
-                        if (package != null)
+                        ClientPackage package = null;
+                        do
                         {
-                            var handler = PackageHandler.GetPackageHandler(this, package);
-                            if (handler != null)
+                            package = _packageFactory.GetNextPackage(stream);
+                            if (package != null)
                             {
-                                handler.HandlePackage();
+                                var handler = PackageHandler.GetPackageHandler(this, package);
+                                if (handler != null)
+                                {
+                                    handler.HandlePackage();
+                                }
+                                else
+                                {
+                                    Logger.Warn($"Package handler for packafe {package.Type} are not found!");
+                                }
                             }
-                            else
-                            {
-                                Logger.Warn($"Package handler for packafe {package.Type} are not found!");
-                            }
-                        }
-                    } while (package != null);
-                }
+                        } while (package != null);
+                    }
 
-            } while (_tcpClient.Connected && !_tokenSource.IsCancellationRequested);
+                } while (_tcpClient.Connected && !_tokenSource.IsCancellationRequested);
+            }
+            catch (IOException)
+            {
+                Close();
+            }
+            catch (TaskCanceledException)
+            {
+                Close();
+            }
         }
 
         public async void SendPackage(ServerPackage package)
         {
             var data = package.ToByteArray();
-            await _stream.WriteAsync(data, 0, data.Length, _tokenSource.Token);
+            try
+            {
+                await _stream.WriteAsync(data, 0, data.Length, _tokenSource.Token);
+            }
+            catch (IOException)
+            {
+                Close();
+            }
+            catch (TaskCanceledException)
+            {
+                Close();
+            }
         }
 
         public void Close()
         {
             _tokenSource.Cancel();
             _tcpClient.Close();
+            _game?.Stop();
         }
     }
 }

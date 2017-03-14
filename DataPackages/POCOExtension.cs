@@ -14,10 +14,26 @@ namespace Shared
             return data;
         }
 
-        public static void FromBytes(this Position p, byte[] data)
+        public static Position FromBytes(this Position p, byte[] data)
         {
             p.X = BitConverter.ToInt32(data, 0);
             p.Y = BitConverter.ToInt32(data, 4);
+            return p;
+        }
+
+        public static byte[] ToByteArray(this PositionF p)
+        {
+            byte[] data = new byte[8];
+            BitConverter.GetBytes(p.X).CopyTo(data, 0);
+            BitConverter.GetBytes(p.Y).CopyTo(data, 4);
+            return data;
+        }
+
+        public static PositionF FromBytes(this PositionF p, byte[] data)
+        {
+            p.X = BitConverter.ToSingle(data, 0);
+            p.Y = BitConverter.ToSingle(data, 4);
+            return p;
         }
 
         public static byte[] ToByteArray(this Unit unit)
@@ -27,16 +43,14 @@ namespace Shared
             using (var stream = new MemoryStream())
             {
                 stream.Write(BitConverter.GetBytes(unit.Id), 0, 4);
+                stream.WriteByte((byte) unit.State);
                 stream.Write(unit.Position.ToByteArray(), 0, 8);
-                stream.WriteByte((byte)unit.State);
-                if (unit.TargetPosition != null)
-                {
-                    stream.Write(unit.TargetPosition.ToByteArray(), 0, 8);
-                }
+                stream.Write(unit.TargetPosition.ToByteArray(), 0, 8);
+                stream.Write(unit.PositionF.ToByteArray(), 0, 8);
 
                 data = stream.ToArray();
             }
-            
+
             return data;
         }
 
@@ -48,20 +62,13 @@ namespace Shared
                 {
                     unit.Id = readed.ReadInt32();
 
-                    unit.Position = new Position();
-                    unit.Position.FromBytes(readed.ReadBytes(8));
-
                     unit.State = (States) readed.ReadByte();
-
-                    if (stream.Position != stream.Length)
-                    {
-                        unit.TargetPosition = new Position();
-                        unit.TargetPosition.FromBytes(readed.ReadBytes(8));
-                    }
-                    else
-                    {
-                        unit.TargetPosition = null;
-                    }
+                    unit.Position = new Position();
+                    unit.Position = unit.Position.FromBytes(readed.ReadBytes(8));
+                    unit.TargetPosition = new Position();
+                    unit.TargetPosition = unit.TargetPosition.FromBytes(readed.ReadBytes(8));
+                    unit.PositionF = new PositionF();
+                    unit.PositionF = unit.PositionF.FromBytes(readed.ReadBytes(8));
                 }
             }
         }

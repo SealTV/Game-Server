@@ -8,11 +8,53 @@ namespace Shared.Algorithms
 {
     public static class AStarPathSearch
     {
+        public static List<Position> FindPathToNearestPoint(int[,] originMap, Position start, Position target)
+        {
+            List<Position> result = null;
+            int[,] tempMap = new int[originMap.GetLength(0), originMap.GetLength(1)];
+
+            for (int i = 0; i < originMap.GetLength(0); i++)
+            {
+                for (int j = 0; j < originMap.GetLength(1); j++)
+                {
+                    tempMap[i, j] = originMap[i, j];
+                }
+            }
+
+            tempMap[target.X, target.Y] = 1;
+
+            int radius = 1;
+
+            List<Position> points = null;
+
+            do
+            {
+                points = GetNearestPoints(target, tempMap, radius);
+                points = points.OrderBy(p => GetHeuristicPathLength(p, target)).ToList();
+                radius++;
+
+                foreach (var point in points)
+                {
+                    result = FindPath(originMap, start, point);
+
+                    if (result != null)
+                        return result;
+
+                    tempMap[point.X, point.Y] = 1;
+                }
+
+
+            } while (result == null && radius < originMap.GetLength(0));
+
+            return new List<Position> { start };
+        }
+
         public static List<Position> FindPath(int[,] map, Position start, Position target)
         {
             // Шаг 1.
             var closedSet = new List<PathNode>();
             var openSet = new List<PathNode>();
+
             // Шаг 2.
             PathNode startNode = new PathNode
             {
@@ -26,38 +68,31 @@ namespace Shared.Algorithms
 
             while (openSet.Count > 0)
             {
-                // Шаг 3.
                 var currentNode = openSet.OrderBy(node => node.EstimateFullPathLength).First();
-                // Шаг 4.
+
                 if (currentNode.Position.X == target.X && currentNode.Position.Y == target.Y)
                     return GetPathForNode(currentNode);
-                // Шаг 5.
+
                 openSet.Remove(currentNode);
-                if(currentNode == null)
-                    Console.WriteLine("NULLLLL");
                 closedSet.Add(currentNode);
-                // Шаг 6.
+
                 foreach (var item in GetNeighbors(currentNode, target, map))
                 {
-                    // Шаг 7.
-                    if (closedSet.Count(node => node.Position.X == item.Position.X && node.Position.Y == item.Position.Y) > 0)
+                    if (closedSet.Count(node => node.Position == item.Position) > 0)
                         continue;
 
-                    var openNode = openSet.FirstOrDefault(node => node.Position.X == item.Position.X && node.Position.Y == item.Position.Y);
-                    // Шаг 8.
+                    var openNode = openSet.FirstOrDefault(node => node.Position == item.Position);
                     if (openNode == null)
                     {
                         openSet.Add(item);
                     }
                     else if (openNode.PathLengthFromStart > item.PathLengthFromStart)
                     {
-                        // Шаг 9.
                         openNode.ParentPoint = currentNode;
                         openNode.PathLengthFromStart = item.PathLengthFromStart;
                     }
                 }
             }
-            // Шаг 10.
             return null;
         }
 
@@ -65,7 +100,6 @@ namespace Shared.Algorithms
         {
             var result = new Collection<PathNode>();
 
-            // Соседними точками являются соседние по стороне клетки.
             var neighborPoints = new[]
             {
                 new Position(pathNode.Position.X + 1, pathNode.Position.Y),
@@ -76,18 +110,15 @@ namespace Shared.Algorithms
 
             foreach (var point in neighborPoints)
             {
-                // Проверяем, что не вышли за границы карты.
                 if (point.X < 0 || point.X >= map.GetLength(0))
                     continue;
 
                 if (point.Y < 0 || point.Y >= map.GetLength(1))
                     continue;
                 
-                // Проверяем, что по клетке можно ходить.
                 if (map[point.X, point.Y] == 1)
                     continue;
 
-                // Заполняем данные для точки маршрута.
                 var neighborNode = new PathNode
                 {
                     Position = point,
@@ -98,6 +129,27 @@ namespace Shared.Algorithms
 
                 result.Add(neighborNode);
             }
+            return result;
+        }
+
+        public static List<Position> GetNearestPoints(Position position, int[,] map, int radius)
+        {
+            List < Position > result = new List<Position>();
+            for (int i = position.X - radius; i < position.X + radius; i++)
+            {
+                for (int j = position.Y - radius; j < position.Y + radius; j++)
+                {
+                    if(position.X == i && position.Y == j || 
+                        (Math.Abs(position.X - i) < radius && Math.Abs(position.Y - j) < radius))
+                        continue;
+
+                    if (i >= 0 && i < map.GetLength(0) && j >= 0 && j < map.GetLength(1) && map[i, j] == 0)
+                    {
+                        result.Add(new Position(i, j));
+                    }
+                }
+            }
+
             return result;
         }
 

@@ -26,9 +26,9 @@ namespace Tests.DataPackages.Client
                 var unit = new Unit
                 {
                     Id = i + 1,
-                    Position = new Position { X = 1 * i, Y = 5 * i },
+                    Position = new Position(1 * i, 5 * i),
                     State = States.Move,
-                    TargetPosition = null
+                    TargetPosition = new Position(1 * i, 5 * i)
                 };
 
                 _setTargetsPackage.Units[i] = unit;
